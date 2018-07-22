@@ -13,6 +13,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
+  String _address = "未知位置";
 
   @override
   void initState() {
@@ -40,6 +41,19 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  Future<void> getLocationOnce() async {
+    String address;
+    try {
+      address = await FlutterAmapLocation.getLocationOnce();
+    } on PlatformException catch (e) {
+      address = "Failed to get address: '{e.message}'";
+    }
+
+    setState(() {
+      _address = address;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -48,7 +62,15 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: new Center(
-          child: new Text('Running on: $_platformVersion\n'),
+          child: new Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Text('Running on: $_platformVersion\n'),
+              new RaisedButton(onPressed: getLocationOnce,
+                child: new Text("获取位置信息"),),
+              new Text("$_address"),
+            ],
+          ),
         ),
       ),
     );

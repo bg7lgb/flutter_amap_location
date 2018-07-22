@@ -1,6 +1,5 @@
 group 'com.bg7lgb.flutteramaplocation'
 version '1.0-SNAPSHOT'
-
 buildscript {
     repositories {
         google()
@@ -11,16 +10,13 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.0.1'
     }
 }
-
 rootProject.allprojects {
     repositories {
         google()
         jcenter()
     }
 }
-
 apply plugin: 'com.android.library'
-
 android {
     compileSdkVersion 27
 
@@ -31,4 +27,8 @@ android {
     lintOptions {
         disable 'InvalidPackage'
     }
+}
+
+dependencies {
+    implementation 'com.amap.api:location:4.1.0'
 }
