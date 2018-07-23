@@ -19,6 +19,8 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initPlatformState();
+
+    FlutterAmapLocation.listenLocation(_onLocationEvent, _onLocationError);
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -44,14 +46,43 @@ class _MyAppState extends State<MyApp> {
   Future<void> getLocationOnce() async {
     String address;
     try {
-      address = await FlutterAmapLocation.getLocationOnce();
+      await FlutterAmapLocation.getLocationOnce();
     } on PlatformException catch (e) {
-      address = "Failed to get address: '{e.message}'";
+      address = "Failed to get address: '${e.message}'";
     }
 
     setState(() {
       _address = address;
     });
+  }
+
+  Future<void> getLocation() async {
+    String address;
+    try {
+      await FlutterAmapLocation.getLocation();
+    } on PlatformException catch (e) {
+      address = "Failed to get address: '${e.message}'";
+    }
+
+    setState(() {
+      _address = address;
+    });
+  }
+
+  Future<void> stopLocation() async {
+    try {
+      await FlutterAmapLocation.stopLocation();
+    } on PlatformException catch (e) {
+       print( "Failed to stop location: '${e.message}'");
+    }
+  }
+
+  void _onLocationEvent(Object event) {
+    print(event);
+  }
+
+  void _onLocationError(Object event) {
+    print(event);
   }
 
   @override
@@ -67,8 +98,13 @@ class _MyAppState extends State<MyApp> {
             children: <Widget>[
               new Text('Running on: $_platformVersion\n'),
               new RaisedButton(onPressed: getLocationOnce,
-                child: new Text("获取位置信息"),),
+                child: new Text("定位一次"),),
               new Text("$_address"),
+              new RaisedButton(onPressed: getLocation,
+                child: new Text("连续定位"),),
+              new Text("$_address"),
+              new RaisedButton(onPressed: stopLocation,
+                child: new Text("停止定位"),),
             ],
           ),
         ),
