@@ -44,12 +44,12 @@ public class FlutterAmapLocationPlugin implements MethodCallHandler, StreamHandl
     mapLocationListener = new AMapLocationListener() {
       @Override
       public void onLocationChanged(AMapLocation aMapLocation) {
-        HashMap<String, String> loc = new HashMap<>();
+        HashMap<String, Object> loc = new HashMap<>();
         if (aMapLocation != null) {
           if (aMapLocation.getErrorCode() == 0) {
             // 定位成功
-            loc.put("latitude", Double.toString(aMapLocation.getLatitude()));
-            loc.put("longitude", Double.toString(aMapLocation.getLongitude()));
+            loc.put("latitude", aMapLocation.getLatitude());
+            loc.put("longitude", aMapLocation.getLongitude());
             loc.put("country", aMapLocation.getCountry());
             loc.put("province", aMapLocation.getProvince());
             loc.put("city", aMapLocation.getCity());
@@ -62,9 +62,9 @@ public class FlutterAmapLocationPlugin implements MethodCallHandler, StreamHandl
             event.success(loc);
           } else {
             // 定位失败
-            loc.put("errorcode", Integer.toString(aMapLocation.getErrorCode()));
+            loc.put("errorcode", aMapLocation.getErrorCode());
             loc.put("errorinfo", aMapLocation.getErrorInfo());
-            event.error("get location error", "", loc);
+            event.error("error", "get location error", loc);
           }
         }
 
@@ -102,7 +102,7 @@ public class FlutterAmapLocationPlugin implements MethodCallHandler, StreamHandl
       }
     } else if (call.method.equals("getLocation")) {
       // 设置定位间隔5秒，默认2秒
-      //mapLocationClientOption.setInterval(5000);
+      mapLocationClientOption.setInterval(5000);
 
       // 设置定位场景为出行模式
       mapLocationClientOption.setLocationPurpose(AMapLocationClientOption.AMapLocationPurpose.Transport);

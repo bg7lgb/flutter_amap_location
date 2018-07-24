@@ -14,6 +14,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
   String _address = "未知位置";
+  double _longitude = 0.0;
+  double _latitude  = 0.0;
 
   @override
   void initState() {
@@ -78,7 +80,13 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _onLocationEvent(Object event) {
-    print(event);
+    Map<String, Object> loc = Map.castFrom(event);
+
+    setState(() {
+      _longitude = loc['longitude'];
+      _latitude = loc['latitude'];
+      _address = loc['address'];
+    });
   }
 
   void _onLocationError(Object event) {
@@ -92,19 +100,41 @@ class _MyAppState extends State<MyApp> {
         appBar: new AppBar(
           title: const Text('Plugin example app'),
         ),
+
         body: new Center(
           child: new Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               new Text('Running on: $_platformVersion\n'),
-              new RaisedButton(onPressed: getLocationOnce,
-                child: new Text("定位一次"),),
-              new Text("$_address"),
-              new RaisedButton(onPressed: getLocation,
-                child: new Text("连续定位"),),
-              new Text("$_address"),
-              new RaisedButton(onPressed: stopLocation,
-                child: new Text("停止定位"),),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  new RaisedButton(onPressed: getLocationOnce,
+                    child: new Text("定位一次"),),
+                  new RaisedButton(onPressed: getLocation,
+                    child: new Text("连续定位"),),
+                  new RaisedButton(onPressed: stopLocation,
+                    child: new Text("停止定位"),),
+                ],
+              ),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                new Text("经度：$_longitude"),
+                ],
+              ),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Text("纬度：$_latitude"),
+                ],
+              ),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Expanded(child: new Text("地址：$_address"),),
+                ],
+              ),
             ],
           ),
         ),
