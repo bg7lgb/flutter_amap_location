@@ -80,10 +80,10 @@ public class FlutterAmapLocationPlugin implements MethodCallHandler, StreamHandl
 
     final FlutterAmapLocationPlugin plugin = new FlutterAmapLocationPlugin(registrar.activity());
 
-    final MethodChannel channel = new MethodChannel(registrar.messenger(), "bg7lgb/amap_location");
+    final MethodChannel channel = new MethodChannel(registrar.messenger(), METHOD_CHANNEL_NAME);
     channel.setMethodCallHandler(plugin);
 
-    final EventChannel positionChannel = new EventChannel(registrar.messenger(), "bg7lgb/amap_location_stream" );
+    final EventChannel positionChannel = new EventChannel(registrar.messenger(), STREAM_CHANNEL_NAME );
     positionChannel.setStreamHandler( plugin);
   }
 
