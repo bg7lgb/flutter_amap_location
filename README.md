@@ -2,9 +2,25 @@
 
 A Flutter plugin for AMap location.
 
-## Getting Started
+## 使用方法
 
-第一次写，不知道怎么写。
+1. 引入flutter_amap_location包
+
+pubspec.yaml文件中dependencies：下加入  
+
+```
+flutter_amap_location:
+```
+然后在终端下执行
+```
+flutter packages get 
+```
+
+完成后，再引入包
+```dart
+import 'package:flutter_amap_location/flutter_amap_location.dart';
+```
+
 
 引入包以后，只需要在您的flutter程序中增加两个函数，用来处理接收到的数据和发生的错误。
 
