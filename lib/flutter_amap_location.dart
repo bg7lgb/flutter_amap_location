@@ -27,12 +27,25 @@ class FlutterAmapLocation {
     await _channel.invokeMethod("getLocation");
   }
 
+  // 停止定位
   static Future<void> stopLocation() async {
     await _channel.invokeMethod("stopLocation");
   }
 
+  // 开始定位
+  static Future<void> startLocation() async {
+    print("startLocation called");
+    await _channel.invokeMethod("startLocation");
+  }
+
   static listenLocation(EventHandler onEvent, EventHandler onError) {
     _stream.receiveBroadcastStream().listen(onEvent, onError: onError );
+  }
+
+  // 设置定位时间间隔，单位ms，默认值2000ms
+  //static Future<void> setInterval(int interval) async {
+  static setInterval(int interval) {
+      _channel.invokeMethod("setInterval", {"interval": interval});
   }
 
 }
