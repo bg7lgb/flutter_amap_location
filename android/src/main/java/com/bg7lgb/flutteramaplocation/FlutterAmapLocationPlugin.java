@@ -33,7 +33,6 @@ public class FlutterAmapLocationPlugin implements MethodCallHandler, StreamHandl
   private Result result;
 
   private Activity activity;
-  private boolean locateOnce = false;
 
   private FlutterAmapLocationPlugin(Activity activity) {
     this.activity = activity;
@@ -101,8 +100,6 @@ public class FlutterAmapLocationPlugin implements MethodCallHandler, StreamHandl
         mapLocationClient.startLocation();
       }
     } else if (call.method.equals("getLocation")) {
-      // 设置定位间隔5秒，默认2秒
-      mapLocationClientOption.setInterval(5000);
 
       // 设置定位场景为出行模式
       mapLocationClientOption.setLocationPurpose(AMapLocationClientOption.AMapLocationPurpose.Transport);
@@ -114,8 +111,59 @@ public class FlutterAmapLocationPlugin implements MethodCallHandler, StreamHandl
         mapLocationClient.startLocation();
       }
     } else if (call.method.equals("stopLocation")) {
-      // 停止定位
-      mapLocationClient.stopLocation();
+      if (null != mapLocationClient) {
+        mapLocationClient.setLocationOption(mapLocationClientOption);
+        // 停止定位
+        mapLocationClient.stopLocation();
+      }
+    } else if (call.method.equals("startLocation")) {
+      if (null != mapLocationClient) {
+        mapLocationClient.setLocationOption(mapLocationClientOption);
+        // 开始定位
+        mapLocationClient.startLocation();
+      }
+    } else if (call.method.equals("setInterval")) {
+      // 设置定位时间间隔，单位为毫秒，默认为2000ms。
+      int interval = call.argument("interval");
+      if (interval <= 0) {
+        return;
+      }
+      mapLocationClientOption.setInterval(interval);
+    } else if (call.method.equals("setLocationMode")) {
+      // 设置定位模式
+      int mode = call.argument("locationMode");
+      mapLocationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.values()[mode]);
+   } else if (call.method.equals("setOnceLocation")) {
+      // 设置一次定位模式
+      boolean isOnceLocation = call.argument("isOnceLocation");
+      mapLocationClientOption.setOnceLocation(isOnceLocation);
+    } else if (call.method.equals("setOnceLocationLatest")) {
+      // 设置一次定位模式，返回最近3秒定位结果中精度最高的一个
+      boolean isOnceLocationLatest = call.argument("isOnceLocationLatest");
+      mapLocationClientOption.setOnceLocation(isOnceLocationLatest);
+    } else if (call.method.equals("setNeedAddress")) {
+      // 设置是否返回地址信息
+      boolean isNeedAddress = call.argument("isNeedAddress");
+      mapLocationClientOption.setNeedAddress(isNeedAddress);
+    } else if (call.method.equals("setMockEnable")) {
+      // 设置是否允许模拟定位
+      boolean isMockEnable = call.argument("isMockEnable");
+      mapLocationClientOption.setMockEnable(isMockEnable);
+    } else if (call.method.equals("setHttpTimeOut")) {
+      // 设置定位请求超时时间
+      int timeout = call.argument("timeout");
+      if (timeout <= 0) {
+        return;
+      }
+      mapLocationClientOption.setHttpTimeOut(timeout);
+    } else if (call.method.equals("setLocationCacheEnable")) {
+      // 设置是否开启定位缓存机制，默认为开启
+      boolean isLocationCacheEnable = call.argument("isLocationCacheEnable");
+      mapLocationClientOption.setLocationCacheEnable(isLocationCacheEnable);
+    } else if (call.method.equals("setLocationPurpose")) {
+      // 设置定位场景
+      int purpose = call.argument("locationPurpose");
+      mapLocationClientOption.setLocationPurpose(AMapLocationClientOption.AMapLocationPurpose.values()[purpose]);
     } else {
       result.notImplemented();
     }
@@ -130,4 +178,5 @@ public class FlutterAmapLocationPlugin implements MethodCallHandler, StreamHandl
   public void onCancel(Object o) {
     event = null;
   }
+
 }

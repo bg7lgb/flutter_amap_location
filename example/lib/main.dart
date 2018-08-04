@@ -48,7 +48,8 @@ class _MyAppState extends State<MyApp> {
   Future<void> getLocationOnce() async {
     String address;
     try {
-      await FlutterAmapLocation.getLocationOnce();
+      FlutterAmapLocation.setOnceLocation(true);
+      await FlutterAmapLocation.startLocation();
     } on PlatformException catch (e) {
       address = "Failed to get address: '${e.message}'";
     }
@@ -61,7 +62,9 @@ class _MyAppState extends State<MyApp> {
   Future<void> getLocation() async {
     String address;
     try {
-      await FlutterAmapLocation.getLocation();
+      FlutterAmapLocation.setOnceLocation(false);
+      FlutterAmapLocation.setOnceLocationLatest(false);
+      await FlutterAmapLocation.startLocation();
     } on PlatformException catch (e) {
       address = "Failed to get address: '${e.message}'";
     }
@@ -81,6 +84,7 @@ class _MyAppState extends State<MyApp> {
 
   void _onLocationEvent(Object event) {
     Map<String, Object> loc = Map.castFrom(event);
+    print (loc['address']);
 
     setState(() {
       _longitude = loc['longitude'];

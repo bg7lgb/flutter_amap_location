@@ -1,10 +1,13 @@
 # flutter_amap_location
 
-A Flutter plugin for AMap location.
+A Flutter plugin for AMap location. 高德地图定位插件
+
+在0.0.1版本中，我使用了场景定位来获取定位数据。
+在0.0.2版本中，我修改了接口方法，尽量按高德定位sdk的接口来，这样高德定位SDK的文档也可以提供一定的参考意义。
 
 ## 使用方法
 
-1. 引入flutter_amap_location包
+### 引入flutter_amap_location包
 
 pubspec.yaml文件中dependencies：下加入  
 
@@ -21,12 +24,29 @@ flutter packages get
 import 'package:flutter_amap_location/flutter_amap_location.dart';
 ```
 
-
 引入包以后，只需要在您的flutter程序中增加两个函数，用来处理接收到的数据和发生的错误。
 
 [有个文章](https://juejin.im/post/5b58123951882563522b5e7c)可以先看看，回头我再把readme补充完善。
 
-2. 注意事项
+### 注意事项
+
+- 单次定位
+单次定位，适用于只定位一次，获取位置信息的场景。需要设置定位参数：
+```dart
+setOnceLocation(true)
+或者
+setOnceLocationLatest(true)
+```
+
+如果使用了setOnceLocationLatest()，则setOnceLocation()也会被设置为相同的值。
+
+- 连续定位
+高德地图定位默认是使用了连续定位。如果需要连续定位时，前面又使用过单次定位，则需要调用setOnceLocation()或setOnceLocationLatest()，关闭单次定位，否则不会成功。
+
+- 定位场景
+从高德定位sdk3.7.0开始，sdk已经提供了按场景定位的功能，提供了三种预置的场景：签到、出行、运动，默认为无场景。如果选择用场景定位，则无需设置其它定位参数，sdk会根据选择的场景自动设置参数。
+当然开发人员仍可以根据自己的需要设置定位参数。在设置完场景后，最好执行一次stopLocation()，再startLocation()，以确保场景参数生效。
+
 - andriod下，要在AndroidManifest.xml增加定位权限
 ```java
     <!--用于进行网络定位-->
