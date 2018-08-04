@@ -1,6 +1,6 @@
 name: flutter_amap_location
 description: A Flutter plugin for AMap location. 高德地图定位插件,目前只实现了andriod版本的功能，ios功能尚未实现。
-version: 0.0.2
+version: 0.0.3
 author: bg7lgb <bg7lgb@gmail.com>
 homepage: https://github.com/bg7lgb/flutter_amap_location
 

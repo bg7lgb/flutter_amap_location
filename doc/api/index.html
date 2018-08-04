@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="generator" content="made with love by dartdoc 0.19.1">
+  <meta name="description" content="flutter_amap_location API docs, for the Dart programming language.">
+  <title>flutter_amap_location - Dart API docs</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
+  <link rel="stylesheet" href="static-assets/github.css">
+  <link rel="stylesheet" href="static-assets/styles.css">
+  <link rel="icon" href="static-assets/favicon.png">
+
+</head>
+
+<body>
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="https://github.com/bg7lgb/flutter_amap_location">flutter_amap_location package</a></li>
+  </ol>
+  <div class="self-name">flutter_amap_location</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+  <div class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+    <h5><span class="package-name">flutter_amap_location</span> <span class="package-kind">package</span></h5>
+    <ol>
+          <li class="section-title">Libraries</li>
+          <li><a href="flutter_amap_location/flutter_amap_location-library.html">flutter_amap_location</a></li>
+    </ol>
+  </div>
+
+  <div class="col-xs-12 col-sm-9 col-md-8 main-content">
+      <section class="desc markdown">
+        <h1>flutter_amap_location</h1>
+<p>A Flutter plugin for AMap location. 高德地图定位插件</p>
+<p>在0.0.1版本中，我使用了场景定位来获取定位数据。
+在0.0.2版本中，我修改了接口方法，尽量按高德定位sdk的接口来，这样高德定位SDK的文档也可以提供一定的参考意义。</p>
+<h2>使用方法</h2>
+<h3>引入flutter_amap_location包</h3>
+<p>pubspec.yaml文件中dependencies：下加入  </p>
+<pre class="language-dart"><code>flutter_amap_location:
+</code></pre>
+<p>然后在终端下执行</p>
+<pre class="language-dart"><code>flutter packages get 
+</code></pre>
+<p>完成后，再引入包</p>
+<pre class="language-dart"><code class="language-dart">import 'package:flutter_amap_location/flutter_amap_location.dart';
+</code></pre>
+<p>引入包以后，只需要在您的flutter程序中增加两个函数，用来处理接收到的数据和发生的错误。</p>
+<p><a href="https://juejin.im/post/5b58123951882563522b5e7c">有个文章</a>可以先看看，回头我再把readme补充完善。</p>
+<h3>注意事项</h3><ul><li>单次定位
+单次定位，适用于只定位一次，获取位置信息的场景。需要设置定位参数：</li></ul>
+<pre class="language-dart"><code class="language-dart">setOnceLocation(true)
+或者
+setOnceLocationLatest(true)
+</code></pre>
+<p>如果使用了setOnceLocationLatest()，则setOnceLocation()也会被设置为相同的值。</p><ul><li>
+<p>连续定位
+高德地图定位默认是使用了连续定位。如果需要连续定位时，前面又使用过单次定位，则需要调用setOnceLocation()或setOnceLocationLatest()，关闭单次定位，否则不会成功。</p></li><li>
+<p>定位场景
+从高德定位sdk3.7.0开始，sdk已经提供了按场景定位的功能，提供了三种预置的场景：签到、出行、运动，默认为无场景。如果选择用场景定位，则无需设置其它定位参数，sdk会根据选择的场景自动设置参数。
+当然开发人员仍可以根据自己的需要设置定位参数。在设置完场景后，最好执行一次stopLocation()，再startLocation()，以确保场景参数生效。</p></li><li>
+<p>andriod下，要在AndroidManifest.xml增加定位权限</p></li></ul>
+<pre class="language-java"><code class="language-java">    &lt;!--用于进行网络定位--&gt;
+    &lt;uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"&gt;&lt;/uses-permission&gt;
+    &lt;!--用于访问GPS定位--&gt;
+    &lt;uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"&gt;&lt;/uses-permission&gt;
+    &lt;!--用于获取运营商信息，用于支持提供运营商信息相关的接口--&gt;
+    &lt;uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"&gt;&lt;/uses-permission&gt;
+    &lt;!--用于访问wifi网络信息，wifi信息会用于进行网络定位--&gt;
+    &lt;uses-permission android:name="android.permission.ACCESS_WIFI_STATE"&gt;&lt;/uses-permission&gt;
+    &lt;!--用于获取wifi的获取权限，wifi信息会用来进行网络定位--&gt;
+    &lt;uses-permission android:name="android.permission.CHANGE_WIFI_STATE"&gt;&lt;/uses-permission&gt;
+    &lt;!--用于访问网络，网络定位需要上网--&gt;
+    &lt;uses-permission android:name="android.permission.INTERNET"&gt;&lt;/uses-permission&gt;
+    &lt;!--用于读取手机当前的状态--&gt;
+    &lt;uses-permission android:name="android.permission.READ_PHONE_STATE"&gt;&lt;/uses-permission&gt;
+    &lt;!--用于写入缓存数据到扩展存储卡--&gt;
+    &lt;uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"&gt;&lt;/uses-permission&gt;
+    &lt;!--用于申请调用A-GPS模块--&gt;
+    &lt;uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"&gt;&lt;/uses-permission&gt;
+    &lt;!--用于申请获取蓝牙信息进行室内定位--&gt;
+    &lt;uses-permission android:name="android.permission.BLUETOOTH"&gt;&lt;/uses-permission&gt;
+</code></pre><ul><li>增加一个定位service和设置高德定位的apikey</li></ul>
+<pre class="language-dart"><code>   &lt;service android:name="com.amap.api.location.APSService"&gt;&lt;/service&gt;
+
+   &lt;meta-data android:name="com.amap.api.v2.apikey" android:value="你在高德后台获取的apikey"&gt;
+   &lt;/meta-data&gt;
+</code></pre>
+<p>For help getting started with Flutter, view our online
+<a href="https://flutter.io/">documentation</a>.</p>
+<p>For help on editing plugin code, view the <a href="https://flutter.io/platform-plugins/#edit-code">documentation</a>.</p>
+      </section>
+      
+        <section class="summary">
+            <h2>Libraries</h2>
+          <dl>
+            <dt id="flutter_amap_location">
+              <span class="name"><a href="flutter_amap_location/flutter_amap_location-library.html">flutter_amap_location</a></span>
+            </dt>
+            <dd>
+              
+            </dd>          </dl>
+        </section>
+
+  </div> <!-- /.main-content -->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    flutter_amap_location 0.0.3
+  </span>
+
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="static-assets/typeahead.bundle.min.js"></script>
+<script src="static-assets/highlight.pack.js"></script>
+<script src="static-assets/URI.js"></script>
+<script src="static-assets/script.js"></script>
+
+
+</body>
+
+</html>
