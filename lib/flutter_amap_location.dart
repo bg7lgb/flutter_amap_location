@@ -8,13 +8,13 @@ typedef void EventHandler(Object event);
 // AMapLocationMode.BATTERY_SAVING 低功耗模式，只使用网络定位（基站和WIFI）
 // AMapLocationMode.DEVICE_SENSORS 设备定位，只使用GPS，不需要联网，支持返回地址描述信息
 // AMapLocationMode.HIGH_ACCURACY 高精度定位，同时使用GPS和网络定位，优先返回高精度结果，以及对应的地址描述信息
-enum AMapLocationMode {BATTERY_SAVING, DEVICE_SENSORS, HIGH_ACCURACY}
+enum AMapLocationMode { BATTERY_SAVING, DEVICE_SENSORS, HIGH_ACCURACY }
 
 // 定位场景
 // SIGNIN：签到
 // TRANSPORT：出行
 // SPORT：运动
-enum AMapLocationPurpose {SIGNIN, TRANSPORT, SPORT}
+enum AMapLocationPurpose { SIGNIN, TRANSPORT, SPORT }
 
 class FlutterAmapLocation {
   static const String METHOD_CHANNEL_NAME = "bg7lgb/amap_location";
@@ -23,8 +23,7 @@ class FlutterAmapLocation {
   static const MethodChannel _channel =
       const MethodChannel(METHOD_CHANNEL_NAME);
 
-  static const EventChannel _stream =
-    const EventChannel(EVENT_CHANNEL_NAME);
+  static const EventChannel _stream = const EventChannel(EVENT_CHANNEL_NAME);
 
   static Future<String> get platformVersion async {
     final String version = await _channel.invokeMethod('getPlatformVersion');
@@ -50,27 +49,29 @@ class FlutterAmapLocation {
   }
 
   static listenLocation(EventHandler onEvent, EventHandler onError) {
-    _stream.receiveBroadcastStream().listen(onEvent, onError: onError );
+    _stream.receiveBroadcastStream().listen(onEvent, onError: onError);
   }
 
   // 设置定位时间间隔，单位ms，默认值2000ms
   //static Future<void> setInterval(int interval) async {
   static setInterval(int interval) {
-      _channel.invokeMethod("setInterval", {"interval": interval});
+    _channel.invokeMethod("setInterval", {"interval": interval});
   }
 
   // 设置一次定位
   // true：启动单次定位
   // false：使用默认的连续定位
   static setOnceLocation(bool isOnceLocation) {
-    _channel.invokeMethod("setOnceLocation", {"isOnceLocation": isOnceLocation});
+    _channel
+        .invokeMethod("setOnceLocation", {"isOnceLocation": isOnceLocation});
   }
 
   // 设置一次定位，获取最近3秒内精度最高的一次定位结果
   // true：启动单次定位，返回最近3秒内精度最高的一次定位结果
   // false：使用默认的连续定位
   static setOnceLocationLatest(bool isOnceLocationLatest) {
-    _channel.invokeMethod("setOnceLocationLatest", {"isOnceLocationLatest": isOnceLocationLatest});
+    _channel.invokeMethod("setOnceLocationLatest",
+        {"isOnceLocationLatest": isOnceLocationLatest});
   }
 
   // 设置定位模式, 默认是高精度定位模式
@@ -98,7 +99,8 @@ class FlutterAmapLocation {
   // true : 开启
   // false : 关闭
   static setLocationCacheEnable(bool isLocationCacheEnable) {
-    _channel.invokeMethod("setLocationCacheEnable", {"isLocationCacheEnable": isLocationCacheEnable});
+    _channel.invokeMethod("setLocationCacheEnable",
+        {"isLocationCacheEnable": isLocationCacheEnable});
   }
 
   // 设置定位场景模式
@@ -106,5 +108,4 @@ class FlutterAmapLocation {
   static setLocationPurpose(AMapLocationPurpose purpose) {
     _channel.invokeMethod("setLocationPurpose", {"locationPurpose": purpose});
   }
-
 }
