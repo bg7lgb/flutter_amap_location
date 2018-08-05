@@ -1,3 +1,6 @@
+## 0.0.5
+* 测试pub.flutter-io.cn是否存在故障
+
 ## 0.0.4
 * 修改了README.md
 * 同时测试pub.flutter-io.cn是否存在故障
