@@ -1,3 +1,7 @@
+## 0.0.4
+* 修改了README.md
+* 同时测试pub.flutter-io.cn是否存在故障
+
 ## 0.0.3
 * 去掉了获取platform版本号的方法
 * 增加api 文档
